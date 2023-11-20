@@ -5,7 +5,15 @@ steps:
       - 'clone'
       - 'https://github.com/technical-stuff/spring3.git'
       - '/test3'
-
+      
+  - name: 'alpine'
+    args:
+      - 'sh'
+      - '-c'
+      - |
+        ls -a
+        pwd
+        
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['install']
     
