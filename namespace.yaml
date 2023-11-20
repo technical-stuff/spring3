@@ -3,4 +3,4 @@ kind: Namespace
 metadata:
   name: myapp-${BRANCH_NAME}
   labels:
-    branch: myapp-$(echo ${BRANCH_NAME} | tr / _)
+    branch: ${BRANCH_NAME}
