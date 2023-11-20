@@ -28,7 +28,7 @@ steps:
   - name: 'gcr.io/cloud-builders/mvn'
     args:
       - '-f'
-      - '/workspace/spring3/pom.xml'  # Adjust the path to your pom.xml file
+      - '/workspace/pom.xml'  # Adjust the path to your pom.xml file
       - 'clean'
       - 'install'
 
