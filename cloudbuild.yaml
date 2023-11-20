@@ -13,7 +13,7 @@ steps:
       - |
         ls -a
         pwd
-        whereami
+        whoami
         
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['install']
