@@ -61,6 +61,9 @@ steps:
 
         # Verify the namespaces
         kubectl config get-contexts
+
+        # Get the list of namespaces
+        kubectl get namespace
       
    # Print the contexts and namespaces to the Cloud Build logs
   - name: 'gcr.io/cloud-builders/gcloud'
