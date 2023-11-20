@@ -68,6 +68,11 @@ steps:
       - 'us-east1'
       - '--project'
       - 'eastern-dream-404606'
+      
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - 'get'
+      - 'namespace'
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
 options:
