@@ -76,11 +76,6 @@ steps:
 
         echo "Namespaces:"
         kubectl get namespace  # Access the list of namespaces
-        
-  # Get cluster info for debugging
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args:
-      - 'cluster-info'
 
   # Print the cluster info to the Cloud Build logs
   - name: 'gcr.io/cloud-builders/gcloud'
