@@ -96,11 +96,11 @@ steps:
         echo $${_GET_NAMESPACES}  # Access the output variable
         
  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-      - 'kubectl apply -f /workspace/namespace.yaml'
+   entrypoint: 'bash'
+   args:
+     - '-c'
+     - |
+     - 'kubectl apply -f /workspace/namespace.yaml'
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
 options:
