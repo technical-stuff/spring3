@@ -69,10 +69,38 @@ steps:
       - '--project'
       - 'eastern-dream-404606'
       
+  # Verify the namespaces
   - name: 'gcr.io/cloud-builders/kubectl'
     args:
       - 'get'
       - 'namespace'
+      - '--output=json'  # Get output in JSON format
+    id: get-namespaces
+
+  # Print the namespaces to the Cloud Build logs
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Namespaces:"
+        echo $${_GET_NAMESPACES}  # Access the output variable
+
+  # Get the list of namespaces using 'kubectl get namespace'
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - 'get'
+      - 'namespace'
+    id: get-namespace-list
+
+  # Print the list of namespaces to the Cloud Build logs
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Namespace List:"
+        echo $${_GET_NAMESPACE_LIST}  # Access the output variable
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
 options:
