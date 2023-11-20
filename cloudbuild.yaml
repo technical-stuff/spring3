@@ -47,8 +47,28 @@ steps:
       - 'push'
       - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
 
+  # Authenticate with Google Cloud and set project and region
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud auth activate-service-account --key-file=$$GOOGLE_APPLICATION_CREDENTIALS
+        gcloud config set project $PROJECT_ID
+        gcloud config set compute/region $REGION
+
+  # Get cluster credentials
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'container'
+      - 'clusters'
+      - 'get-credentials'
+      - 'autopilot-cluster-1'
+      - '--region'
+      - 'us-east1'
+      - '--project'
+      - 'eastern-dream-404606'
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
-
 options:
   logging: CLOUD_LOGGING_ONLY
