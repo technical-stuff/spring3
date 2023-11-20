@@ -13,18 +13,10 @@ steps:
       - |
         ls -a
         pwd
+        whereami
         
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['install']
-    
-  - name: 'alpine'
-    args:
-      - 'sh'
-      - '-c'
-      - |
-        ls -a
-        pwd
-    dir: '/test3'
         
   #- name: 'gcr.io/cloud-builders/gradle'
   #  args: 
@@ -39,7 +31,6 @@ steps:
       - '/workspace/spring3/pom.xml'  # Adjust the path to your pom.xml file
       - 'clean'
       - 'install'
-    dir: '/test3'
 
   # Step 2: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
