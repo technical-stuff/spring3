@@ -38,6 +38,7 @@ steps:
       - 'build'
       - '-t'
       - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/2ndfile:$SHORT_SHA'
+      - '.'
 
   # Step 3: Push the Docker image to Google Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
