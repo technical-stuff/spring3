@@ -17,7 +17,11 @@ steps:
   
     # Step 2: Run Maven clean install
   - name: 'gcr.io/cloud-builders/mvn'
-    args: ['clean', 'package']
+    args:
+      - '-f'
+      - '/test3/spring3/pom.xml'  # Adjust the path to your pom.xml file
+      - 'clean'
+      - 'install'
     dir: '/test3'
 
   # Step 2: Build the Docker image
