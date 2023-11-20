@@ -1,0 +1,41 @@
+steps:
+  # Step 1: Clone the Java Spring Boot project from GitHub
+  - name: 'gcr.io/cloud-builders/git'
+    args:
+      - 'clone'
+      - 'https://github.com/technical-stuff/spring3.git'
+      - '/test3'
+
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['install']
+  
+  #- name: 'gcr.io/cloud-builders/gradle'
+  #  args: 
+  #    - 'clean'
+  #    - 'install'
+  #    - '/test3'
+  
+    # Step 2: Run Maven clean install
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['clean', 'package']
+    dir: '/test3'
+
+  # Step 2: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/2ndfile:$SHORT_SHA'
+      - '/test3'
+
+  # Step 3: Push the Docker image to Google Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/2ndfile:$SHORT_SHA'
+
+images:
+  - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/2ndfile:$SHORT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
