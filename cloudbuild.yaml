@@ -92,7 +92,6 @@ steps:
       - '-c'
       - |
         ls -la /workspace # Verify the contents of the directory
-        kubectl apply -f /workspace/namespace.yaml
         kubectl get namespaces  # Check if the namespace is listed after applying
         
   # Extract branch name from Cloud Build substitution
@@ -109,7 +108,8 @@ steps:
     args:
       - '-c'
       - |
-        kubectl create namespace $NAMESPACE_NAME
+        kubectl apply -f /workspace/namespace.yaml
+        kubectl get namespaces  # Check if the namespace is listed after applying
 
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
