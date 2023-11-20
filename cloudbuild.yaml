@@ -69,6 +69,22 @@ steps:
       - '--project'
       - 'eastern-dream-404606'
       
+    # Verify the namespaces
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - 'config'
+      - 'get-contexts'
+    id: get-contexts
+
+  # Print the contexts to the Cloud Build logs
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Kubernetes Contexts:"
+        echo $${_GET_CONTEXTS}  # Access the output variable
+      
   # Verify the namespaces
   - name: 'gcr.io/cloud-builders/kubectl'
     args:
