@@ -103,6 +103,12 @@ steps:
       - |
         echo "Namespace List:"
         echo $${_GET_NAMESPACE_LIST}  # Access the output variable
+        
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - 'apply'
+      - '-f'
+      - '/workspace/namespace.yaml'
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
 options:
