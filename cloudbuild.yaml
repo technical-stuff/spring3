@@ -55,7 +55,7 @@ steps:
       - |
         gcloud auth activate-service-account --key-file=$$GOOGLE_APPLICATION_CREDENTIALS
         gcloud config set project $PROJECT_ID
-        gcloud config set compute/region $REGION
+        gcloud config set compute/region us-east1
 
   # Get cluster credentials
   - name: 'gcr.io/cloud-builders/gcloud'
