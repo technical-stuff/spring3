@@ -84,6 +84,20 @@ steps:
       - |
         echo "Kubernetes Contexts:"
         echo $${_GET_CONTEXTS}  # Access the output variable
+        
+  # Get cluster info for debugging
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - 'cluster-info'
+
+  # Print the cluster info to the Cloud Build logs
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Cluster Info:"
+        echo $${_CLUSTER_INFO}  # Access the output variabl
       
   # Verify the namespaces
   - name: 'gcr.io/cloud-builders/kubectl'
