@@ -85,14 +85,6 @@ steps:
       - |
         echo "Cluster Info:"
         kubectl cluster-info  # Access the cluster info
-      
-  # Verify the namespaces
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args:
-      - 'get'
-      - 'namespace'
-      - '--output=json'  # Get output in JSON format
-    id: get-namespaces
 
   # Print the namespaces to the Cloud Build logs
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -102,13 +94,6 @@ steps:
       - |
         echo "Namespaces:"
         echo $${_GET_NAMESPACES}  # Access the output variable
-
-  # Get the list of namespaces using 'kubectl get namespace'
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args:
-      - 'get'
-      - 'namespace'
-    id: get-namespace-list
 
   # Print the list of namespaces to the Cloud Build logs
   - name: 'gcr.io/cloud-builders/gcloud'
