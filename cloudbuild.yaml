@@ -62,7 +62,7 @@ steps:
         # Verify the namespaces
         kubectl config get-contexts
       
-  # Print the contexts to the Cloud Build logs
+   # Print the contexts and namespaces to the Cloud Build logs
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
@@ -70,6 +70,9 @@ steps:
       - |
         echo "Kubernetes Contexts:"
         kubectl config get-contexts  # Access the Kubernetes contexts
+
+        echo "Namespaces:"
+        kubectl get namespace  # Access the list of namespaces
         
   # Get cluster info for debugging
   - name: 'gcr.io/cloud-builders/kubectl'
