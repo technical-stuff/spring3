@@ -100,8 +100,8 @@ steps:
     args:
       - '-c'
       - |
-        BRANCH_NAME=$(echo $BRANCH_NAME | tr / _)
-        export NAMESPACE_NAME=myapp-${BRANCH_NAME}
+        BRANCH_NAME=$(echo $BRANCH_NAME | tr / _ | tr "[:upper:]" "[:lower:]" | cut -c 1-63)
+        export VALID_NAMESPACE_NAME=myapp-${BRANCH_NAME}
         
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
