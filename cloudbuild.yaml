@@ -103,6 +103,13 @@ steps:
       - |
         BRANCH_NAME=$(echo $BRANCH_NAME | tr / _)
         export NAMESPACE_NAME=myapp-${BRANCH_NAME}
+        
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        kubectl create namespace $NAMESPACE_NAME
 
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
