@@ -3,6 +3,7 @@ steps:
   - name: 'gcr.io/cloud-builders/git'
     args:
       - 'clone'
+      - '--branch=$BRANCH_NAME'
       - 'https://github.com/technical-stuff/spring3.git'
       - '/test3'
       
@@ -37,17 +38,17 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/2ndfile:$SHORT_SHA'
+      - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
       - '.'
 
   # Step 3: Push the Docker image to Google Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/2ndfile:$SHORT_SHA'
+      - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/2ndfile:$BRANCH_NAME'
 
 images:
-  - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/2ndfile:$SHORT_SHA'
+  - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
 
 options:
   logging: CLOUD_LOGGING_ONLY
