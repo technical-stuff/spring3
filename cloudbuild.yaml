@@ -9,7 +9,7 @@ steps:
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['install']
     
-  - name: 'alpine''
+  - name: 'alpine'
     args:
       - 'pwd'
       - 'ls -a'
