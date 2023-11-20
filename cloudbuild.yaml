@@ -53,28 +53,15 @@ steps:
     args:
       - '-c'
       - |
-        gcloud config set project eastern-dream-404606
+        gcloud config set project $PROJECT_ID
         gcloud config set compute/region us-east1
 
-  # Get cluster credentials
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - 'container'
-      - 'clusters'
-      - 'get-credentials'
-      - 'autopilot-cluster-1'
-      - '--region'
-      - 'us-east1'
-      - '--project'
-      - 'eastern-dream-404606'
-      
-    # Verify the namespaces
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args:
-      - 'config'
-      - 'get-contexts'
-    id: get-contexts
+        # Get cluster credentials and set the context
+        gcloud container clusters get-credentials autopilot-cluster-1 --region us-east1 --project $PROJECT_ID
 
+        # Verify the namespaces
+        kubectl config get-contexts
+      
   # Print the contexts to the Cloud Build logs
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
@@ -82,7 +69,7 @@ steps:
       - '-c'
       - |
         echo "Kubernetes Contexts:"
-        echo $${_GET_CONTEXTS}  # Access the output variable
+        kubectl config get-contexts  # Access the Kubernetes contexts
         
   # Get cluster info for debugging
   - name: 'gcr.io/cloud-builders/kubectl'
@@ -96,7 +83,7 @@ steps:
       - '-c'
       - |
         echo "Cluster Info:"
-        echo $${_CLUSTER_INFO}  # Access the output variabl
+        kubectl cluster-info  # Access the cluster info
       
   # Verify the namespaces
   - name: 'gcr.io/cloud-builders/kubectl'
