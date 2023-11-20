@@ -11,9 +11,11 @@ steps:
     
   - name: 'alpine'
     args:
-      - 'pwd'
-      - 'ls -a'
-  
+      - '-c'
+      - |
+        pwd
+        ls -a
+        
   #- name: 'gcr.io/cloud-builders/gradle'
   #  args: 
   #    - 'clean'
@@ -24,7 +26,7 @@ steps:
   - name: 'gcr.io/cloud-builders/mvn'
     args:
       - '-f'
-      - '/test3/spring3/pom.xml'  # Adjust the path to your pom.xml file
+      - '//test3/spring3/pom.xml'  # Adjust the path to your pom.xml file
       - 'clean'
       - 'install'
     dir: '/test3'
