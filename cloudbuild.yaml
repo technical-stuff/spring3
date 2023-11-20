@@ -53,7 +53,6 @@ steps:
     args:
       - '-c'
       - |
-        gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
         gcloud config set project eastern-dream-404606
         gcloud config set compute/region us-east1
 
