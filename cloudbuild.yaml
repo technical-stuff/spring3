@@ -11,8 +11,8 @@ steps:
     
   - name: 'gcr.io/cloud-builders/bash'
     args:
-      - '-c'
-      - 'ls -R /test3'
+      - 'pwd'
+      - 'ls -a'
   
   #- name: 'gcr.io/cloud-builders/gradle'
   #  args: 
