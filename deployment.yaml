@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: myapp-deployment
-  namespace: #_BRANCH_NAME#
+  namespace: my-app#_BRANCH_NAME#
 spec:
   replicas: 2  # Number of desired replicas
   selector:
