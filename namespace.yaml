@@ -1,6 +1,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: myapp-$(echo ${BRANCH_NAME//[^a-zA-Z0-9]/-} | tr '[:upper:]' '[:lower:]')
-  labels:
-    branch: ${BRANCH_NAME//[^a-zA-Z0-9]/-}
+  name: myapp-${BRANCH_NAME}-0
