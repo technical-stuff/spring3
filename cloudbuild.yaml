@@ -110,7 +110,14 @@ steps:
       - |
         kubectl apply -f /workspace/namespace.yaml
         kubectl get namespaces  # Check if the namespace is listed after applying
-        
+  
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        kubectl apply -f /workspace/deployment.yaml
+        kubectl get deploy ns $BRANCH_NAME  # Check if the namespace is listed after applying      
 substitutions:
   _BRANCH_NAME: '$BRANCH_NAME'
   
