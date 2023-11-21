@@ -116,6 +116,7 @@ steps:
     args:
       - '-c'
       - |
+        sed -i "s|#_BRANCH_NAME#|$BRANCH_NAME|g" /workspace/deployment.yaml
         kubectl apply -f /workspace/deployment.yaml
         kubectl get deploy ns $BRANCH_NAME  # Check if the namespace is listed after applying      
 substitutions:
