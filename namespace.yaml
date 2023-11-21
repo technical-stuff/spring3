@@ -1,4 +1,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: myapp-${BRANCH_NAME}-0
+  name: myapp-$_BRANCH_NAME
