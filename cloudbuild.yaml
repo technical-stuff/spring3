@@ -1,5 +1,5 @@
 steps:
-  # Step 1: Clone the Java Spring Boot project from GitHub
+  # Step 1: Clone the Java Spring Boot project from GitHub 
   - name: 'gcr.io/cloud-builders/git'
     args:
       - 'clone'
@@ -13,6 +13,7 @@ steps:
       - '-c'
       - |
         ls -a
+        ls -ll
         pwd
         whoami
         
