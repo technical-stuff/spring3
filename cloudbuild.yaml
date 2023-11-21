@@ -101,7 +101,7 @@ steps:
       - '-c'
       - |
         BRANCH_NAME=$(echo $BRANCH_NAME | tr / _ | tr "[:upper:]" "[:lower:]" | cut -c 1-63)
-        export VALID_NAMESPACE_NAME=myapp-${BRANCH_NAME}
+        sed -i "s|\${_BRANCH_NAME}|$BRANCH_NAME|g" /workspace/namespace.yaml
         
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
