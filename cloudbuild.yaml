@@ -110,7 +110,10 @@ steps:
       - |
         kubectl apply -f /workspace/namespace.yaml
         kubectl get namespaces  # Check if the namespace is listed after applying
-
+        
+substitutions:
+  _BRANCH_NAME: '$BRANCH_NAME'
+  
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
 options:
