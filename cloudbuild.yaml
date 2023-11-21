@@ -25,7 +25,7 @@ steps:
   #    - 'install'
   #    - '/test3'
   
-    # Step 2: Run Maven clean install test
+    # Step 2: Run Maven clean install
   - name: 'gcr.io/cloud-builders/mvn'
     args:
       - '-f'
@@ -47,8 +47,74 @@ steps:
       - 'push'
       - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
 
+  # Authenticate with Google Cloud and set project and region
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud config set project $PROJECT_ID
+        gcloud config set compute/region us-east1
+
+        # Get cluster credentials and set the context
+        gcloud container clusters get-credentials autopilot-cluster-1 --region us-east1 --project $PROJECT_ID
+
+        # Verify the namespaces
+        kubectl config get-contexts
+
+        # Get the list of namespaces
+        kubectl get namespace
+      
+   # Print the contexts and namespaces to the Cloud Build logs
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Kubernetes Contexts:"
+        kubectl config get-contexts  # Access the Kubernetes contexts
+
+        echo "Namespaces:"
+        kubectl get namespace  # Access the list of namespaces
+
+  # Print the cluster info to the Cloud Build logs
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Cluster Info:"
+        kubectl cluster-info  # Access the cluster info
+        
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        ls -la /workspace # Verify the contents of the directory
+        kubectl get namespaces  # Check if the namespace is listed after applying
+        
+  # Extract branch name from Cloud Build substitution
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        BRANCH_NAME=$(echo $BRANCH_NAME | tr / _ | tr "[:upper:]" "[:lower:]" | cut -c 1-63)
+        sed -i "s|#_BRANCH_NAME#|$BRANCH_NAME|g" /workspace/namespace.yaml
+        
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        kubectl apply -f /workspace/namespace.yaml
+        kubectl get namespaces  # Check if the namespace is listed after applying
+        
+substitutions:
+  _BRANCH_NAME: '$BRANCH_NAME'
+  
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
-
 options:
   logging: CLOUD_LOGGING_ONLY
