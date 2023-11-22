@@ -37,6 +37,8 @@ steps:
     entrypoint: 'bash'
     args:
       - '-c'
+      - 'cd ..'
+      - 'cd /root'
       - 'ls -la /root/.m2/'   
 
   # Step 2: Build the Docker image
