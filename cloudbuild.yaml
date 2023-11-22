@@ -31,15 +31,7 @@ steps:
       - '-f'
       - '/workspace/pom.xml'  # Adjust the path to your pom.xml file
       - 'clean'
-      - 'install'
-      
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - 'cd ..'
-      - 'cd /root'
-      - 'ls -la /root/.m2/'   
+      - 'install' 
 
   # Step 2: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
