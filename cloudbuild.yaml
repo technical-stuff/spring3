@@ -12,8 +12,9 @@ steps:
       - 'sh'
       - '-c'
       - |
-        ls -la /opt/google/maven
-        cd .. && pwd
+        ls -a
+        pwd
+        whoami
                 
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['install']
