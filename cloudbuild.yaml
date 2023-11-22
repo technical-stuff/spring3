@@ -37,7 +37,7 @@ steps:
     entrypoint: 'bash'
     args:
       - '-c'
-      - 'ls -la $HOME/.m2'   
+      - 'ls -la /root/.m2/'   
 
   # Step 2: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
