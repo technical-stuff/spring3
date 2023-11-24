@@ -67,21 +67,6 @@ steps:
       - |
         sudo apt-get update && sudo apt-get install -y pwgen
 
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        GENERATED_PASSWORD=$(pwgen -1 12)
-        echo "Generated password: ${GENERATED_PASSWORD}" >> generated_password.txt
-        echo ${GENERATED_PASSWORD}
-        gcloud sql users create '$BRANCH_NAME-user' \
-          --instance 'test' \
-          --password ${GENERATED_PASSWORD} \
-          --host '%' \
-          --project '$PROJECT_ID'
-    id: 'generate-and-create-user'
-
   # Authenticate with Google Cloud and set project and region
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
