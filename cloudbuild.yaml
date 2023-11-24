@@ -46,6 +46,15 @@ steps:
     args:
       - 'push'
       - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
+
+  # Step to install pwgen
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        cat /etc/os-release
+        # apt-get update && apt-get install -y pwgen
   
   # Step 6: Create a MySQL database in Cloud SQL
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -58,15 +67,6 @@ steps:
       - 'test'
       - '--project'
       - '$PROJECT_ID'
-
-    # Step to install pwgen
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        sudo apt-get update 
-        sudo apt-get install pwgen
 
   # Authenticate with Google Cloud and set project and region
   - name: 'gcr.io/cloud-builders/gcloud'
