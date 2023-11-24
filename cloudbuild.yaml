@@ -68,6 +68,23 @@ steps:
           --instance 'test' \
           --password '$(cat /workspace/$BRANCH_NAME.txt)'
         fi
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # Get Cloud SQL instance information
+        INSTANCE_INFO=$(gcloud sql instances describe 'test' --project '$PROJECT_ID' --format json)
+
+        # Extract public IP address
+        PUBLIC_IP=$(echo "${INSTANCE_INFO}" | jq -r '.ipAddresses[].ipAddress')
+
+        # Extract private IP address
+        PRIVATE_IP=$(echo "${INSTANCE_INFO}" | jq -r '.ipAddresses[] | select(.type=="PRIVATE") | .ipAddress')
+
+        echo "Public IP: ${PUBLIC_IP}"
+        echo "Private IP: ${PRIVATE_IP}"
     
   # Authenticate with Google Cloud and set project and region
   - name: 'gcr.io/cloud-builders/gcloud'
