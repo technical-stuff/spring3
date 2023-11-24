@@ -58,6 +58,14 @@ steps:
       - 'test'
       - '--project'
       - '$PROJECT_ID'
+
+    # Step to install pwgen
+  - name: 'gcr.io/cloud-builders/apt'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        apt-get update && apt-get install -y pwgen
       
   # Step 7: Grant full access to the database
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -69,9 +77,9 @@ steps:
       - '--instance'
       - 'test'
       - '--password'
-      - 'Clops@123'
+      - '$(PASSWORD=$(pwgen -1 12) && echo "Generated password: $PASSWORD" && echo "$PASSWORD")'
       - '--project'
-      - '$PROJECT_ID'
+      - '$PROJECT_ID'  
 
   # Authenticate with Google Cloud and set project and region
   - name: 'gcr.io/cloud-builders/gcloud'
