@@ -56,8 +56,9 @@ steps:
         if gcloud sql instances describe $BRANCH_NAME --project=$PROJECT_ID &>/dev/null; then
           echo "Cloud SQL instance $BRANCH_NAME already exists. Skipping creation."
         else
-          apt install -y pwgen
-          pwgen -1 12 >> pwd.txt
+          # Install pwgen
+          apt update && apt install -y pwgen
+          pwgen -1 12 >> pwd1.txt
           # Create the Cloud SQL instance
           gcloud sql instances create $BRANCH_NAME \
             --database-version=MYSQL_8_0 \
@@ -65,7 +66,7 @@ steps:
             --region=us-east1 \
             --storage-type=SSD \
             --storage-size=10 \
-            --root-password='$(cat /workspace/pwd.txt)' \
+            --root-password='$(cat /workspace/pwd1.txt)' \
             --network=default \
             --no-assign-ip
           gcloud sql instances describe $BRANCH_NAME --format="value(ipAddresses[0].ipAddress)" --project=$PROJECT_ID >> sqlconnection.txt
