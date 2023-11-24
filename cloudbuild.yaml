@@ -52,13 +52,15 @@ steps:
     args:
       - '-c'
       - |
-        gcloud sql instances create instancetesting \
+        gcloud sql instances create $BRANCH_NAME \
         --database-version=MYSQL_8_0 \
         --tier=db-n1-standard-1 \
         --region=us-east1 \
         --storage-type=SSD \
         --storage-size=10 \
         --root-password=Clops@456$$#22
+        --network=default
+        --no-assign-ip
 
       
   
