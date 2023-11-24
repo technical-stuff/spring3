@@ -60,12 +60,13 @@ steps:
       - '$PROJECT_ID'
 
     # Step to install pwgen
-  - name: 'gcr.io/cloud-builders/apt'
+  - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        sudo apt-get update && sudo apt-get install -y pwgen
+        sudo apt-get update 
+        sudo apt-get install pwgen
 
   # Authenticate with Google Cloud and set project and region
   - name: 'gcr.io/cloud-builders/gcloud'
