@@ -69,10 +69,10 @@ steps:
             --root-password='$(cat /workspace/pwd1.txt)' \
             --network=default \
             --no-assign-ip
-          gcloud sql instances describe $BRANCH_NAME --format="value(ipAddresses[0].ipAddress)" --project=$PROJECT_ID >> sqlconnection.txt
+          # gcloud sql instances describe $BRANCH_NAME --format="value(ipAddresses[0].ipAddress)" --project=$PROJECT_ID >> sqlconnection.txt
           gcloud sql instances patch $BRANCH_NAME \
             --assign-ip \
-            --ip-address='$(cat /workspace/sqlconnection.txt)' \
+            --ip-address='$(gcloud sql instances describe $BRANCH_NAME --format="value(ipAddresses[0].ipAddress)" --project=$PROJECT_ID)' \
             --network=default \
             --project=$PROJECT_ID
         fi
