@@ -65,7 +65,7 @@ steps:
     args:
       - '-c'
       - |
-        apt-get update && apt-get install -y pwgen
+        sudo apt-get update && sudo apt-get install -y pwgen
       
   # Step 7: Grant full access to the database
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -160,7 +160,6 @@ steps:
         kubectl get deploy ns $BRANCH_NAME  # Check if the namespace is listed after applying      
 substitutions:
   _BRANCH_NAME: '$BRANCH_NAME'
-  GENERATED_PASSWORD: $(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
   
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
