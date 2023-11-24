@@ -77,13 +77,13 @@ steps:
       - '--instance'
       - 'test'
       - '--password'
-      - '${GENERATED_PASSWORD}'
+      - $(pwgen -1 12)
       - '--project'
       - '$PROJECT_ID' 
     args:
       - '-c'
       - |
-        GENERATED_PASSWORD=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
+        GENERATED_PASSWORD=$(gcloud builds log $BUILD_ID --filter='Step #7' --format='value(textPayload)' | grep 'Generated password:')
         echo $GENERATED_PASSWORD
 
   # Authenticate with Google Cloud and set project and region
