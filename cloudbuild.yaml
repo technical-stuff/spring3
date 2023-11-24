@@ -73,7 +73,8 @@ steps:
       - '-c'
       - |
         GENERATED_PASSWORD=$(pwgen -1 12)
-        echo "Generated password: ${GENERATED_PASSWORD}" >> /workspace/generated_password.txt
+        echo "Generated password: ${GENERATED_PASSWORD}" >> generated_password.txt
+        echo ${GENERATED_PASSWORD}
         gcloud sql users create '$BRANCH_NAME-user' \
           --instance 'test' \
           --password ${GENERATED_PASSWORD} \
