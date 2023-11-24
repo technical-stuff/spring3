@@ -66,25 +66,20 @@ steps:
       - '-c'
       - |
         sudo apt-get update && sudo apt-get install -y pwgen
-      
-  # Step 7: Grant full access to the database
+
   - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - 'sql'
-      - 'users'
-      - 'create'
-      - '$BRANCH_NAME-user'
-      - '--instance'
-      - 'test'
-      - '--password'
-      - '${GENERATED_PASSWORD}'
-      - '--project'
-      - '$PROJECT_ID' 
+    entrypoint: 'bash'
     args:
       - '-c'
       - |
-        GENERATED_PASSWORD=$(gcloud builds log $BUILD_ID --filter='Step #7' --format='value(textPayload)' | grep 'Generated password:')
-        echo $GENERATED_PASSWORD
+        GENERATED_PASSWORD=$(pwgen -1 12)
+        echo "Generated password: ${GENERATED_PASSWORD}" >> /workspace/generated_password.txt
+        gcloud sql users create '$BRANCH_NAME-user' \
+          --instance 'test' \
+          --password ${GENERATED_PASSWORD} \
+          --host '%' \
+          --project '$PROJECT_ID'
+    id: 'generate-and-create-user'
 
   # Authenticate with Google Cloud and set project and region
   - name: 'gcr.io/cloud-builders/gcloud'
