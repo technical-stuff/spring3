@@ -70,8 +70,6 @@ steps:
       - 'test'
       - '--password'
       - 'Clops@123'
-      - '--database'
-      - 'clopsdb'
       - '--project'
       - '$PROJECT_ID'
 
