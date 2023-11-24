@@ -72,12 +72,11 @@ steps:
     args:
       - '-c'
       - |
-        GENERATED_PASSWORD=$(pwgen -1 12)
-        echo "Generated password: ${GENERATED_PASSWORD}" >> generated_password.txt
+        pwgen -1 12 >> $BRANCH_NAME.txt
         echo ${GENERATED_PASSWORD}
         gcloud sql users create '$BRANCH_NAME-user' \
           --instance 'test' \
-          --password ${GENERATED_PASSWORD}
+          --password $(cat /workspace/$BRANCH_NAME.txt)
     id: 'generate-and-create-user'
     
   # Authenticate with Google Cloud and set project and region
