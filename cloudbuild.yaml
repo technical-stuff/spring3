@@ -83,7 +83,7 @@ steps:
     args:
       - '-c'
       - |
-        GENERATED_PASSWORD=$(gcloud builds log ${BUILD_ID} --filter='Step #7' --format='value(textPayload)' | grep 'Generated password:')
+        GENERATED_PASSWORD=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
         echo $GENERATED_PASSWORD
 
   # Authenticate with Google Cloud and set project and region
@@ -160,7 +160,7 @@ steps:
         kubectl get deploy ns $BRANCH_NAME  # Check if the namespace is listed after applying      
 substitutions:
   _BRANCH_NAME: '$BRANCH_NAME'
-  GENERATED_PASSWORD: $(pwgen -1 6)
+  CSR_PAYLOAD: $(cat csr.json)
   
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
