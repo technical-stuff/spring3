@@ -77,9 +77,18 @@ steps:
       - '--instance'
       - 'test'
       - '--password'
-      - '$(PASSWORD=$(pwgen -1 12) && echo "Generated password: $PASSWORD" && echo "$PASSWORD")'
+      - $(pwgen -1 12)
       - '--project'
-      - '$PROJECT_ID'  
+      - '$PROJECT_ID' 
+      - '--quiet'  # Omit any output from the user creation step
+    entrypoint: 'bash'
+    id: 'Print Generated Password'
+    waitFor: ['Step 7']  # Ensure that the user creation step completes before printing the password
+    args:
+      - '-c'
+      - |
+        GENERATED_PASSWORD=$(gcloud builds log $BUILD_ID --filter='Step #7' --format='value(textPayload)' | grep 'Generated password:')
+        echo $GENERATED_PASSWORD
 
   # Authenticate with Google Cloud and set project and region
   - name: 'gcr.io/cloud-builders/gcloud'
