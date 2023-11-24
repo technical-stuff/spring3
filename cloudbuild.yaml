@@ -53,8 +53,7 @@ steps:
     args:
       - '-c'
       - |
-        cat /etc/os-release
-        # apt-get update && apt-get install -y pwgen
+        apt update && apt install -y pwgen
   
   # Step 6: Create a MySQL database in Cloud SQL
   - name: 'gcr.io/cloud-builders/gcloud'
