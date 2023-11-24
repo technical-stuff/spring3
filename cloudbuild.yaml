@@ -73,7 +73,6 @@ steps:
       - '-c'
       - |
         pwgen -1 12 >> $BRANCH_NAME.txt
-        echo ${GENERATED_PASSWORD}
         gcloud sql users create '$BRANCH_NAME-user' \
           --instance 'test' \
           --password $(cat /workspace/$BRANCH_NAME.txt)
