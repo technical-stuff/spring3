@@ -52,18 +52,22 @@ steps:
     args:
       - '-c'
       - |
-        gcloud sql instances create $BRANCH_NAME \
-        --database-version=MYSQL_8_0 \
-        --tier=db-n1-standard-1 \
-        --region=us-east1 \
-        --storage-type=SSD \
-        --storage-size=10 \
-        --root-password=Clops@456$$#22
-        --network=default
-        --no-assign-ip
+        # Check if the Cloud SQL instance already exists
+        if gcloud sql instances describe $BRANCH_NAME --project=$PROJECT_ID &>/dev/null; then
+          echo "Cloud SQL instance $BRANCH_NAME already exists. Skipping creation."
+        else
+          # Create the Cloud SQL instance
+          gcloud sql instances create $BRANCH_NAME \
+            --database-version=MYSQL_8_0 \
+            --tier=db-n1-standard-1 \
+            --region=us-east1 \
+            --storage-type=SSD \
+            --storage-size=10 \
+            --root-password='Clops@456$$#22' \
+            --network=default \
+            --no-assign-ip
+        fi
 
-      
-  
   # Step to check if the MySQL database already exists
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
