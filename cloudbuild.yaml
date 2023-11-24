@@ -46,6 +46,20 @@ steps:
     args:
       - 'push'
       - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
+
+ - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud sql instances create instancetesting \
+        --database-version=MYSQL_8_0 \
+        --tier=db-n1-standard-1 \
+        --region=us-east1 \
+        --storage-type=SSD \
+        --storage-size=10 \
+        --root-password=Clops@456$$#22
+
       
   
   # Step to check if the MySQL database already exists
