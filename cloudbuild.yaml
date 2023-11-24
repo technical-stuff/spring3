@@ -69,13 +69,21 @@ steps:
             --root-password='$(cat /workspace/pwd1.txt)' \
             --network=default \
             --no-assign-ip
-          # gcloud sql instances describe $BRANCH_NAME --format="value(ipAddresses[0].ipAddress)" --project=$PROJECT_ID >> sqlconnection.txt
-          gcloud sql instances patch $BRANCH_NAME \
-            --assign-ip \
-            --ip-address='$(gcloud sql instances describe $BRANCH_NAME --format="value(ipAddresses[0].ipAddress)" --project=$PROJECT_ID)' \
-            --network=default \
-            --project=$PROJECT_ID
+          gcloud sql instances describe $BRANCH_NAME --format="value(ipAddresses[0].ipAddress)" --project=$PROJECT_ID > /workspace/sqlconnection.txt
         fi
+
+  # Step to read the private IP address from the file and use it
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # Assign the private IP address to the Cloud SQL instance using the variable
+        gcloud sql instances patch $BRANCH_NAME \
+          --assign-ip \
+          --ip-address="$(cat /workspace/sqlconnection.txt)" \
+          --network=default \
+          --project=$PROJECT_ID
 
   # Step to check if the MySQL database already exists
   - name: 'gcr.io/cloud-builders/gcloud'
