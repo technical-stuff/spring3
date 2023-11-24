@@ -77,17 +77,13 @@ steps:
       - '--instance'
       - 'test'
       - '--password'
-      - $(pwgen -1 12)
+      - '${GENERATED_PASSWORD}'
       - '--project'
       - '$PROJECT_ID' 
-      - '--quiet'  # Omit any output from the user creation step
-    entrypoint: 'bash'
-    id: 'Print Generated Password'
-    waitFor: ['Step 7']  # Ensure that the user creation step completes before printing the password
     args:
       - '-c'
       - |
-        GENERATED_PASSWORD=$(gcloud builds log $BUILD_ID --filter='Step #7' --format='value(textPayload)' | grep 'Generated password:')
+        GENERATED_PASSWORD=$(gcloud builds log ${BUILD_ID} --filter='Step #7' --format='value(textPayload)' | grep 'Generated password:')
         echo $GENERATED_PASSWORD
 
   # Authenticate with Google Cloud and set project and region
@@ -164,6 +160,7 @@ steps:
         kubectl get deploy ns $BRANCH_NAME  # Check if the namespace is listed after applying      
 substitutions:
   _BRANCH_NAME: '$BRANCH_NAME'
+  GENERATED_PASSWORD: $(pwgen -1 12)
   
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
