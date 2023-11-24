@@ -46,6 +46,34 @@ steps:
     args:
       - 'push'
       - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
+  
+  # Step 6: Create a MySQL database in Cloud SQL
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'sql'
+      - 'databases'
+      - 'create'
+      - 'clopsdb'
+      - '--instance'
+      - 'test'
+      - '--project'
+      - '$PROJECT_ID'
+      
+  # Step 7: Grant full access to the database
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'sql'
+      - 'users'
+      - 'create'
+      - 'clopsuser'
+      - '--instance'
+      - 'test'
+      - '--password'
+      - 'Clops@123'
+      - '--database'
+      - 'clopsdb'
+      - '--project'
+      - '$PROJECT_ID'
 
   # Authenticate with Google Cloud and set project and region
   - name: 'gcr.io/cloud-builders/gcloud'
