@@ -109,13 +109,13 @@ steps:
       # Import the database from Cloud Storage to Cloud SQL
       gcloud sql import sql $DB_INSTANCE_NAME gs://$GCS_BUCKET/$SQL_DUMP_FILE --database=$DB_NAME --user=$CLOUDSQL_USER --password=$CLOUDSQL_PASSWORD
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  args:
-  - '-c'
-  - |
-    # Perform additional steps or validations if needed
-    echo "Database import completed."
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      # Perform additional steps or validations if needed
+      echo "Database import completed."
 
     
   # Authenticate with Google Cloud and set project and region
