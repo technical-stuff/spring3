@@ -146,8 +146,9 @@ steps:
     args:
       - '-c'
       - |
+        REPO_NAME=$(echo $BUILD_SOURCE | awk -F/ '{print $NF}' | cut -d'.' -f1)
         BRANCH_NAME=$(echo $BRANCH_NAME | tr / _ | tr "[:upper:]" "[:lower:]" | cut -c 1-63)
-        sed -i "s|#_BRANCH_NAME#|$BRANCH_NAME|g" /workspace/namespace.yaml
+        sed -i "s|#_REPO_NAME#|$REPO_NAME|g; "s|#_BRANCH_NAME#|$BRANCH_NAME|g" /workspace/namespace.yaml
         
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
