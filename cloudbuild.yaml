@@ -79,7 +79,7 @@ steps:
       - '-c'
       - |
         # Check if the database already exists
-        if gcloud sql databases list --instance=test --project=$PROJECT_ID | grep -q $BRANCH_NAME-db; then
+        if gcloud sql databases list --instance=$BRANCH_NAME --project=$PROJECT_ID | grep -q $BRANCH_NAME-db; then
           echo "Database already exists. Skipping creation."
         else
           # Install pwgen
@@ -89,7 +89,7 @@ steps:
           gcloud sql databases create $BRANCH_NAME-db --instance test --project $PROJECT_ID
           pwgen -1 12 >> $BRANCH_NAME.txt
           gcloud sql users create '$BRANCH_NAME-user' \
-          --instance 'test' \
+          --instance '$BRANCH_NAME' \
           --password '$(cat /workspace/$BRANCH_NAME.txt)'
         fi
 
@@ -99,7 +99,7 @@ steps:
     - '-c'
     - |
       # Import the database from Cloud Storage to Cloud SQL
-      gcloud sql import sql test gs://mysqldumpbackup/Cloud_SQL_Export_2023-11-24.sql --database=$BRANCH_NAME-db --user=$BRANCH_NAME-user --password=$(cat /workspace/$BRANCH_NAME.txt)
+      gcloud sql import sql $BRANCH_NAME gs://mysqldumpbackup/Cloud_SQL_Export_2023-11-24.sql --database=$BRANCH_NAME-db --user=$BRANCH_NAME-user --password=$(cat /workspace/$BRANCH_NAME.txt)
 
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
