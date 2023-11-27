@@ -156,6 +156,14 @@ steps:
       - |
         ls -la /workspace # Verify the contents of the directory
         kubectl get namespaces  # Check if the namespace is listed after applying
+
+  - name: 'gcr.io/cloud-builders/pwgen'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      echo "Build Number: ${BUILD_ID}"
+
         
   # Extract branch name from Cloud Build substitution
   - name: 'gcr.io/cloud-builders/gcloud'
