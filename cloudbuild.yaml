@@ -168,6 +168,7 @@ steps:
         kubectl get deploy ns $BRANCH_NAME  # Check if the namespace is listed after applying      
 substitutions:
   _BRANCH_NAME: '$BRANCH_NAME'
+  _REPO_NAME: '$REPO_NAME'
   
 images:
   - 'us-east1-docker.pkg.dev/eastern-dream-404606/testing/$BRANCH_NAME:$BRANCH_NAME'
