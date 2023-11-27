@@ -98,16 +98,8 @@ steps:
     args:
     - '-c'
     - |
-      # Set environment variables
-      DB_INSTANCE_NAME=test
-      DB_NAME=$BRANCH_NAME-db
-      CLOUDSQL_USER=$BRANCH_NAME-user
-      CLOUDSQL_PASSWORD=$(cat /workspace/$BRANCH_NAME.txt)
-      GCS_BUCKET=mysqldumpbackup
-      SQL_DUMP_FILE=Cloud_SQL_Export_2023-11-24.sql
-
       # Import the database from Cloud Storage to Cloud SQL
-      gcloud sql import sql $DB_INSTANCE_NAME gs://$GCS_BUCKET/$SQL_DUMP_FILE --database=$DB_NAME --user=$CLOUDSQL_USER --password=$CLOUDSQL_PASSWORD
+      gcloud sql import sql test gs://mysqldumpbackup/Cloud_SQL_Export_2023-11-24.sql --database=$BRANCH_NAME-db --user=$BRANCH_NAME-user --password=$(cat /workspace/$BRANCH_NAME.txt)
 
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
