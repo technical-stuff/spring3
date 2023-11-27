@@ -146,7 +146,7 @@ steps:
     args:
       - '-c'
       - |
-        REPO_NAME=$(echo $$SOURCE_REPOSITORY | awk -F/ '{print $NF}' | cut -d'.' -f1)
+        REPO_NAME=$(echo $$SOURCE_REPOSITORY | sed 's:.*/::; s/\.[^.]*$//')
         BRANCH_NAME=$(echo $BRANCH_NAME | tr / _ | tr "[:upper:]" "[:lower:]" | cut -c 1-63)
         sed -i "s|#_REPO_NAME#|$REPO_NAME|g; "s|#_BRANCH_NAME#|$BRANCH_NAME|g" /workspace/namespace.yaml
         
