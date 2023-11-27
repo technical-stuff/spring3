@@ -86,7 +86,7 @@ steps:
           apt update && apt install -y pwgen
           
           # Step 6: Create a MySQL database in Cloud SQL
-          gcloud sql databases create $BRANCH_NAME-db --instance test --project $PROJECT_ID
+          gcloud sql databases create $BRANCH_NAME-db --instance $BRANCH_NAME --project $PROJECT_ID
           pwgen -1 12 >> $BRANCH_NAME.txt
           gcloud sql users create '$BRANCH_NAME-user' \
           --instance '$BRANCH_NAME' \
