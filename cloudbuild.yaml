@@ -166,10 +166,6 @@ steps:
       BUILD_ID=$(gcloud builds describe $BUILD_ID --format='value(id)')
       echo "Build Number: ${BUILD_ID}"
 
-    # Print the build ID
-    echo "Build Number: ${BUILD_ID}"
-
-
         
   # Extract branch name from Cloud Build substitution
   - name: 'gcr.io/cloud-builders/gcloud'
