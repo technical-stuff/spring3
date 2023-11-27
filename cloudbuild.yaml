@@ -99,7 +99,7 @@ steps:
     - '-c'
     - |
       # Import the database from Cloud Storage to Cloud SQL
-      gcloud sql import sql $BRANCH_NAME gs://mysqldumpbackup/Cloud_SQL_Export_2023-11-24.sql --database=$BRANCH_NAME-db --user=$BRANCH_NAME-user --password=$(cat /workspace/$BRANCH_NAME.txt)
+      gcloud sql import sql $BRANCH_NAME gs://mysqldumpbackup/Cloud_SQL_Export_2023-11-24.sql --database=$BRANCH_NAME-db --user=$BRANCH_NAME-user
 
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
