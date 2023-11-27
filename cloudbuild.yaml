@@ -93,9 +93,9 @@ steps:
           --password '$(cat /workspace/$BRANCH_NAME.txt)'
         fi
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  args:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
     - '-c'
     - |
       # Set environment variables
