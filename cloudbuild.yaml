@@ -18,6 +18,7 @@ steps:
         gcloud pubsub subscriptions create $BRANCH_NAME \
           --topic=$BRANCH_NAME \
           --delivery-type=PULL \
+          --ack-deadline=60 \
           --project=$PROJECT_ID
 
       
