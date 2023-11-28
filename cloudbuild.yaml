@@ -6,6 +6,20 @@ steps:
       - '--branch=$BRANCH_NAME'
       - 'https://github.com/technical-stuff/spring3.git'
       - '/test3'
+
+    # Step to create a Pub/Sub topic
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # Create Pub/Sub topic
+        gcloud pubsub topics create $BRANCH_NAME --project=$PROJECT_ID
+        gcloud pubsub subscriptions create $BRANCH_NAME \
+          --topic=$BRANCH_NAME \
+          --delivery-type=PULL \
+          --project=$PROJECT_ID
+
       
   - name: 'alpine'
     args:
